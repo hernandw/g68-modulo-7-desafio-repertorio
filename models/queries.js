@@ -21,7 +21,7 @@ const getSongsQuery = async () => {
   try {
     const query = { text: "SELECT * FROM canciones" };
     const result = await pool.query(query);
-    if(result.rowCount > 0) {
+    if (result.rowCount > 0) {
       return result.rows;
     } else {
       return throwError("Canciones no encontradas");
@@ -48,5 +48,21 @@ const editSongQuery = async (titulo, artista, tono, id) => {
   }
 };
 
+const deleteSongQueries = async (id) => {
+  try {
+      const sql = {
+          text: "DELETE FROM canciones WHERE id = $1 returning *",
+          values: [id],
+      }
+      const response = await pool.query(sql)
+      if (response.rowCount > 0) {
+          return response.rows
+      } else {
+          return new Error("No se elimino la canción")
+      }
+  } catch (error) {
+      console.log("Error code: ", error.code, "Error message: ", error.message);
+  }
+}
 
-export { agregarCancionQueries, getSongsQuery, editSongQuery };
+export { agregarCancionQueries, getSongsQuery, editSongQuery, deleteSongQueries };
