@@ -10,7 +10,7 @@ const agregarCancionQueries = async (datos) => {
     if (response.rowCount > 0) {
       return response.rows[0];
     } else {
-      return throwError("Cancion no agregada");
+      return new Error("Cancion no agregada");
     }
   } catch (err) {
     console.error("Error al agregar cancion:", err);
@@ -24,7 +24,7 @@ const getSongsQuery = async () => {
     if (result.rowCount > 0) {
       return result.rows;
     } else {
-      return throwError("Canciones no encontradas");
+      return new Error("Canciones no encontradas");
     }
   } catch (error) {
     console.log("Code: " + error.code + "\nMessage: " + error);
